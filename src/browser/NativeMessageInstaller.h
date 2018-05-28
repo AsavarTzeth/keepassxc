@@ -40,6 +40,8 @@ private:
     QJsonObject constructFile(BrowserShared::SupportedBrowsers browser);
     bool createNativeMessageFile(BrowserShared::SupportedBrowsers browser);
 
+    QString constructFlatpakPath() const;
+
     Q_DISABLE_COPY(NativeMessageInstaller);
 };
 
