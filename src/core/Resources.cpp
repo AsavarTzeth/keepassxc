@@ -98,7 +98,11 @@ QString Resources::wordlistPath(const QString& name) const
 
 QIcon Resources::applicationIcon()
 {
+#ifdef KEEPASSXC_DIST_FLATPAK
+    return icon("org.keepassxc.KeePassXC", false);
+#else
     return icon("keepassxc", false);
+#endif
 }
 
 QString Resources::trayIconAppearance() const
@@ -124,12 +128,22 @@ QIcon Resources::trayIconLocked()
     auto iconApperance = trayIconAppearance();
 
     if (iconApperance == "monochrome-light") {
+#ifdef KEEPASSXC_DIST_FLATPAK
+        return icon("org.keepassxc.KeePassXC.monochrome-light-locked", false);
+#else
         return icon("keepassxc-monochrome-light-locked", false);
+#endif
     }
     if (iconApperance == "monochrome-dark") {
+#ifdef KEEPASSXC_DIST_FLATPAK
+        return icon("org.keepassxc.KeePassXC.monochrome-dark-locked", false);
+    }
+    return icon("org.keepassxc.KeePassXC.locked", false);
+#else
         return icon("keepassxc-monochrome-dark-locked", false);
     }
     return icon("keepassxc-locked", false);
+#endif
 }
 
 QIcon Resources::trayIconUnlocked()
@@ -137,12 +151,22 @@ QIcon Resources::trayIconUnlocked()
     auto iconApperance = trayIconAppearance();
 
     if (iconApperance == "monochrome-light") {
+#ifdef KEEPASSXC_DIST_FLATPAK
+        return icon("org.keepassxc.KeePassXC.monochrome-light", false);
+#else
         return icon("keepassxc-monochrome-light", false);
+#endif
     }
     if (iconApperance == "monochrome-dark") {
+#ifdef KEEPASSXC_DIST_FLATPAK
+        return icon("org.keepassxc.KeePassXC.monochrome-dark", false);
+    }
+    return icon("org.keepassxc.KeePassXC", false);
+#else
         return icon("keepassxc-monochrome-dark", false);
     }
     return icon("keepassxc", false);
+#endif
 }
 
 QIcon Resources::icon(const QString& name, bool recolor, const QColor& overrideColor)
