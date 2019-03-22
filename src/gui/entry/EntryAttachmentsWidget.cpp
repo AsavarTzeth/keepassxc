@@ -1,5 +1,6 @@
 #include "EntryAttachmentsWidget.h"
 #include "ui_EntryAttachmentsWidget.h"
+#include "config-keepassx.h"
 
 #include <QDesktopServices>
 #include <QDir>
@@ -328,9 +329,14 @@ bool EntryAttachmentsWidget::openAttachment(const QModelIndex& index, QString& e
     const QByteArray attachmentData = m_entryAttachments->value(filename);
 
     // tmp file will be removed once the database (or the application) has been closed
-#ifdef KEEPASSXC_DIST_SNAP
+
+#if defined(KEEPASSXC_DIST_SNAP)
     const QString tmpFileTemplate =
         QString("%1/XXXXXX.%2").arg(QProcessEnvironment::systemEnvironment().value("SNAP_USER_DATA"), filename);
+#elif defined(KEEPASSXC_DIST_FLATPAK)
+    const QString tmpFileTemplate =
+        QString("%1/app/%2/XXXXXX.%3").arg(QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation),
+                QProcessEnvironment::systemEnvironment().value("FLATPAK_ID"), filename);
 #else
     const QString tmpFileTemplate = QDir::temp().absoluteFilePath(QString("XXXXXX.").append(filename));
 #endif
